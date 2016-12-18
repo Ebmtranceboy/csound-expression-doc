@@ -10,3 +10,35 @@ Csound.Catalog.Drum.Tr808
 
 just a hint you can make make more harsh version of dreamSharc sound by using it's sibling dreamSharc' it accepts a brightness [0,1] as second aux argument the first is an shInstrument. By default it's set to 0.35, but if you set it higher it would sound harsher with more harmonics (it cotrols a low pass filter somehwere in the guts of the instrument).
 interesting thing that it's a signal and you can root an LFO to it or make some random changes: dreamSharc' shCello (0.3 + 0.4 * uosc 0.1)
+
+
+module Csound.Typed.Types.Prim(
+    Sig(..), unSig, D(..), unD, Tab(..), unTab, Str(..), Spec(..), Wspec(..), 
+    BoolSig(..), unBoolSig, BoolD(..), unBoolD, Unit(..), unit, Val(..), hideGE, SigOrD,
+
+    -- ** Tables
+    preTab, preStringTab, TabSize(..), TabArgs(..), updateTabSize,
+    fromPreTab, getPreTabUnsafe, skipNorm, forceNorm,
+    nsamp, ftlen, ftchnls, ftsr, ftcps,
+    TabList, tabList, fromTabList, fromTabListD,   
+
+    -- ** constructors
+    double, int, text, 
+    
+    -- ** constants
+    idur, getSampleRate, getControlRate, getBlockSize, getZeroDbfs,
+
+    -- ** converters
+    ar, kr, ir, sig,
+
+    -- ** lifters
+    on0, on1, on2, on3,
+
+    -- ** numeric funs
+    quot', rem', div', mod', ceil', floor', round', int', frac',
+   
+    -- ** logic funs
+    when1, whens, untilDo, whileDo, boolSig,
+    equalsTo, notEqualsTo, lessThan, greaterThan, lessThanEquals, greaterThanEquals,
+    whenD1, whenDs, untilDoD, whileDoD, untilBeginD
+)

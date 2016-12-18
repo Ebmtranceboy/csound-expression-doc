@@ -1,31 +1,21 @@
 import Csound.Base
-
-globalSig = newGlobalRef (0 :: Sig)
-globalIndex = newGlobalRef (0 :: D)
-globalPhs = newGlobalRef (0 :: Sig)
-
-globalKsmps = newGlobalRef (getSampleRate/getControlRate)
+import Control.Monad (join)
 
 trigSig freq = 
     do 
-       sref <- globalSig
-       s <- readRef sref
-       iref <- globalIndex
-       i <- readRef iref
-       pref <- globalPhs
        let dph = sig $ 2*pi*freq/getSampleRate
-       kref <- globalKsmps
-       ksmps <- readRef kref
+       s <- join $ fmap readRef $ newGlobalRef (0 :: Sig)
+       iref <- newGlobalRef (0 :: D)
+       pref <- newGlobalRef (0 :: Sig)
        
-       untilDoD (i Csound.Base.>=* ksmps) 
+       i <- readRef iref
+       untilDoD (i Csound.Base.>=* getBlockSize) 
              (do
                  phase <- readRef pref
-                 writeRef pref (dph + phase)
-                 phase <- readRef pref
                  vaset ((/3) $ sin phase) (sig i) s
+                 writeRef pref (dph + phase)
                  writeRef iref (1 + i)
                  i <- readRef iref
-                 ksamps <- readRef kref
                  return ()
              )
        writeRef iref 0
