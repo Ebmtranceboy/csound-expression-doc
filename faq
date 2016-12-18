@@ -1,0 +1,12 @@
+It's a big lib and it can be hard to see what to use. Take a look at the module Csound.Air.Envelope on functions xxxSeq they can create interesting trance-music control signals. like sqrSeq, triSeq, constSeq they create looping envelopes with given shapes
+It's cool to use them with filters, cutoff frequencies or frequencies for arpegiators
+
+Hard and soft sync. Lots of functions added for hard and soft sync. Check out the module Csound.Air.Wave.Sync.
+
+Csound.Air.Granular.Morpheus
+
+bd    - base drum           sn - snare drum         chh - closed high hat
+Csound.Catalog.Drum.Tr808
+
+just a hint you can make make more harsh version of dreamSharc sound by using it's sibling dreamSharc' it accepts a brightness [0,1] as second aux argument the first is an shInstrument. By default it's set to 0.35, but if you set it higher it would sound harsher with more harmonics (it cotrols a low pass filter somehwere in the guts of the instrument).
+interesting thing that it's a signal and you can root an LFO to it or make some random changes: dreamSharc' shCello (0.3 + 0.4 * uosc 0.1)

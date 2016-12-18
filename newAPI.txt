@@ -1,0 +1,48 @@
+
+loop -> loopBy
+line -> mel
+chord -> har
+delay -> del
+stretch -> str
+mo1 -> ar1
+mo2 -> ar2
+
+-----------------------
+-- csound-expression --
+-----------------------
+:m +Csound.Base
+dac $ setDur 2 $ tri 220
+dac $ mul 0.5 $ saw (220 + 100 * osc 0.5)
+dac $ saw (50 + 150 * leg 2 2 0.5 1)
+let sample = toMono $ ar2 $ diskin2 (text "stereoFile.wav") 1
+let meOnKeys = midi $ onMsg osc
+vdac $ mul 0.5 $ fmap (+ sample) meOnKeys
+dac $ repeatSnd 3 $ leg 1 2 0 0 * osc 220
+let wave x = oscBy (sines2 [(1, 1), (3, 0.5), (7, 0.125), (11, 0.1)]) x
+vdac $ midi $ onMsg $ mul (fades 0.1 0.5) . wave
+let vol = slider "volume" (linSpan 0 1) 0.5
+dac $ do { (gui, v) <- vol; panel gui; return (v * osc 440) }
+let instr _ = return $ fades 0.1 0.1 * osc 440
+dacBy (setRates 44100 1) $ mul 0.5 $ sched instr $ withDur 0.5 $ metro 1
+writeCsdBy (setRates 44100 1) "truc.csd" $ mul 0.5 $ sched instr $ withDur 0.5 $ metroE 1
+
+-- countdown
+dac $ mix $ sco (onAmp  $ noise 1 0) $ str 0.25 $ loopBy 4 $ mel [temp 0.5, rest 1]
+
+-- pythagoras chord
+let notes = fmap temp [1, 5/4, 3/2, 2]
+let n1 = mel notes
+let n2 = har notes
+let ns = fmap (double . (440 * )) $ str 0.5 $ mel [n1, str 4 n2]
+dac $ mul 0.15 $ mix $ sco (return . mul (fades 0.1 0.1) . osc . sig) ns 
+
+-- spirals of time
+let freqs = take 128 $ cycle [8.03,9.03,9.10,8.03,9.03,8.03,9.03,9.08,8.03,9.04,9.03,8.03,8.11,9.03,8.03,9.03,8.10,8.03, 9.03,9.04,8.03,9.04,9.03,8.03,9.06,8.03,9.03,9.08,8.03,9.11,8.03,9.11] :: [D]
+let ns = str 0.5 $ mel $ fmap (temp.cpspch) freqs
+dac $ echo 0.1 0.1 $ reverTime 2.5 $ mul 0.15 $ mix $ str 0.5 $ sco (return . mul (fades 0.01 0.1) . tri . sig) ns
+
+f a = fmOut1 $ do
+-- > 	x1 <- fmOsc 1
+-- > 	x2 <- fmOsc 2
+-- > 	x1 `fmod` [(a, x2)]
+-- > 	return x1

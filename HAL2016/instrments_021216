@@ -1,0 +1,304 @@
+:: Sig -> (a -> a) -> Patch a -> Patch a
+singleFx
+
+:: Sig -> (a -> SE a) -> Patch a -> Patch a
+singleFx'
+
+:: Sig -> Patch2 -> Patch2
+addHammer
+withDeepBass
+
+:: Patch2
+epiano1
+epiano1' (Epiano1 revTime)
+mutedPiano
+mutedPiano' (MutedPiano bright revTime)
+amPiano
+fmPiano
+epiano2
+epianoHeavy
+epianoBright
+vibraphonePiano1
+vibraphonePiano2
+
+cathedralOrgan
+toneWheelOrgan
+hammondOrgan
+hammondOrgan' (HammondOrgan detune)
+sawOrgan
+triOrgan
+sqrOrgan
+pwOrgan duty
+waveOrgan (return . (\freq -> wave freq))
+hammondOrganm
+hammondOrganm' (HammondOrgan detune)
+waveOrganm (return . (\freq -> wave freq))
+sawOrganm
+triOrganm
+sqrOrganm
+pwOrganm detune
+
+accordeon
+accordeonBright1
+accordeonBright2
+brokenAccordeon
+accordeon' (Accordeon D D D D)
+
+choirA
+choirO
+choirU
+choirE
+windSings
+noisyChoir
+longNoisyChoir
+noisyRise
+noisySpiral
+noisyChoir' (NoisyChoir order bw)
+longNoisyChoir' (NoisyChoir order bw)
+noisySpiral' finalSpeedOfOscillation
+
+pwPad
+triPad
+nightPad
+overtonePad
+caveOvertonePad
+chorusel
+pwEnsemble
+fmDroneSlow
+fmDroneMedium
+fmDroneFast
+vibrophonePad
+razorPadSlow
+razorPadFast
+razorPadTremolo
+razorPad
+dreamPad
+underwaterPad
+lightIsTooBrightPad
+whaleSongPad
+dreamPadBy (return . (\freq -> wave freq))
+razorPad'  (RazorPad speed)	
+dreamPad' bright
+underwaterPad' bright
+lightIsTooBrightPad' bright
+whaleSongPad' bright
+dreamPadBy' bright (return . (\freq -> wave freq))
+pwPadm
+triPadm
+nightPadm
+overtonePadm
+caveOvertonePadm
+choruselm
+pwEnsemblem
+fmDroneSlowm
+fmDroneMediumm
+fmDroneFastm
+razorPadSlowm
+razorPadFastm
+razorPadTremolom
+razorPadm
+razorPadm' (RazorPad speed)
+dreamPadm
+dreamPadBym (return . (\freq -> wave freq))
+underwaterPadm
+lightIsTooBrightPadm
+whaleSongPadm
+dreamPadm' bright
+underwaterPadm' bright
+dreamPadBym' bright (return . (\freq -> wave freq))
+lightIsTooBrightPadm' bright
+whaleSongPadm' bright
+
+polySynth
+phasingLead
+razorLeadSlow
+razorLeadFast
+razorLeadTremolo
+razorLead
+razorLead' (RazorPad speed)
+overtoneLead
+polySynthm
+
+simpleBass
+pwBass
+deepBass
+
+guitar
+harpsichord	
+
+	smallDahina, dahina, largeDahina, magicDahina,
+	smallBanyan,banyan, largeBanyan, magicBanyan,
+	smallXylophone, xylophone, largeXylophone, magicXylophone,
+	smallTibetanBowl180, tibetanBowl180, largeTibetanBowl180, magicTibetanBowl180,
+	smallSpinelSphere, spinelSphere, largeSpinelSphere, magicSpinelSphere, 
+	smallPotLid, potLid, largePotLid, magicPotLid,
+	smallRedCedarWoodPlate, redCedarWoodPlate, largeRedCedarWoodPlate, 
+	magicRedCedarWoodPlate,
+	smallTubularBell, tubularBell, largeTubularBell, magicTubularBell,
+	smallRedwoodPlate, redwoodPlate, largeRedwoodPlate, magicRedwoodPlate, 
+	smallDouglasFirWoodPlate,
+	douglasFirWoodPlate, largeDouglasFirWoodPlate, magicDouglasFirWoodPlate, 
+	smallUniformWoodenBar,
+	uniformWoodenBar, largeUniformWoodenBar, magicUniformWoodenBar, 
+	smallUniformAluminumBar,
+	uniformAluminumBar, largeUniformAluminumBar, magicUniformAluminumBar, 
+	smallVibraphone1, vibraphone1, largeVibraphone1, magicVibraphone1,
+	smallVibraphone2, vibraphone2, largeVibraphone2, magicVibraphone2,
+	smallChalandiPlates, chalandiPlates, largeChalandiPlates, magicChalandiPlates,
+	smallTibetanBowl152, tibetanBowl152, largeTibetanBowl152, magicTibetanBowl152,
+	smallTibetanBowl140, tibetanBowl140, largeTibetanBowl140, magicTibetanBowl140,
+	smallWineGlass, wineGlass, largeWineGlass, magicWineGlass, 
+	smallHandbell, handbell, largeHandbell, magicHandbell,
+	smallAlbertClockBellBelfast, albertClockBellBelfast, largeAlbertClockBellBelfast, 
+	magicAlbertClockBellBelfast,
+	smallWoodBlock, woodBlock, largeWoodBlock, magicWoodBlock,
+	
+		scrapeDahina, scrapeBanyan, scrapeXylophone, scrapeTibetanBowl180, scrapeSpinelSphere, 
+	scrapePotLid, scrapeRedCedarWoodPlate,
+	scrapeTubularBell, scrapeRedwoodPlate, scrapeDouglasFirWoodPlate, 
+	scrapeUniformWoodenBar, scrapeUniformAluminumBar,
+	scrapeVibraphone1, scrapeVibraphone2, scrapeChalandiPlates, scrapeTibetanBowl152, 
+	scrapeTibetanBowl140, scrapeWineGlass,
+	scrapeSmallHandbell, scrapeAlbertClockBellBelfast, scrapeWoodBlock, 
+
+	scrapeFastDahina, scrapeFastBanyan, scrapeFastXylophone, scrapeFastTibetanBowl180, 
+	scrapeFastSpinelSphere, scrapeFastPotLid,
+	scrapeFastRedCedarWoodPlate, scrapeFastTubularBell, scrapeFastRedwoodPlate, 
+	scrapeFastDouglasFirWoodPlate, scrapeFastUniformWoodenBar,
+	scrapeFastUniformAluminumBar, scrapeFastVibraphone1, scrapeFastVibraphone2, 
+	scrapeFastChalandiPlates, scrapeFastTibetanBowl152,
+	scrapeFastTibetanBowl140, scrapeFastWineGlass, scrapeFastSmallHandbell, 
+	scrapeFastAlbertClockBellBelfast, scrapeFastWoodBlock,
+
+	scrapePadDahina, scrapePadBanyan, scrapePadXylophone, scrapePadTibetanBowl180, 
+	scrapePadSpinelSphere, scrapePadPotLid,
+	scrapePadRedCedarWoodPlate, scrapePadTubularBell, scrapePadRedwoodPlate, 
+	scrapePadDouglasFirWoodPlate, scrapePadUniformWoodenBar,
+	scrapePadUniformAluminumBar, scrapePadVibraphone1, scrapePadVibraphone2, 
+	scrapePadChalandiPlates, scrapePadTibetanBowl152,
+	scrapePadTibetanBowl140, scrapePadWineGlass, scrapePadSmallHandbell, 
+	scrapePadAlbertClockBellBelfast, scrapePadWoodBlock,
+
+	-- | Unfortunately they don't work with @atMonoMidi@. Though @atNote@ works fine. 
+	scrapeDahinam, scrapeBanyanm, scrapeXylophonem, scrapeTibetanBowl180m, 
+	scrapeSpinelSpherem, scrapePotLidm, scrapeRedCedarWoodPlatem,
+	scrapeTubularBellm, scrapeRedwoodPlatem, scrapeDouglasFirWoodPlatem, 
+	scrapeUniformWoodenBarm, scrapeUniformAluminumBarm,
+	scrapeVibraphone1m, scrapeVibraphone2m, scrapeChalandiPlatesm, scrapeTibetanBowl152m, 
+	scrapeTibetanBowl140m, scrapeWineGlassm,
+	scrapeSmallHandbellm, scrapeAlbertClockBellBelfastm, scrapeWoodBlockm, 
+
+	scrapePadDahinam, scrapePadBanyanm, scrapePadXylophonem, scrapePadTibetanBowl180m, 
+	scrapePadSpinelSpherem, scrapePadPotLidm,
+	scrapePadRedCedarWoodPlatem, scrapePadTubularBellm, scrapePadRedwoodPlatem, 
+	scrapePadDouglasFirWoodPlatem, scrapePadUniformWoodenBarm,
+	scrapePadUniformAluminumBarm, scrapePadVibraphone1m, scrapePadVibraphone2m,
+	scrapePadChalandiPlatesm, scrapePadTibetanBowl152m,
+	scrapePadTibetanBowl140m, scrapePadWineGlassm, scrapePadSmallHandbellm, 
+	scrapePadAlbertClockBellBelfastm, scrapePadWoodBlockm,
+
+	Wind(..), woodWind',
+
+	fluteSpec, shortFluteSpec, 
+	flute, shortFlute, fluteVibrato, mutedFlute, brightFlute, 
+
+	bassClarinetSpec, shortBassClarinetSpec,
+	bassClarinet, shortBassClarinet, bassClarinetVibrato, mutedBassClarinet, 
+	brightBassClarinet,
+
+	frenchHornSpec, shortFrenchHornSpec, 
+	frenchHorn, shortFrenchHorn, frenchHornVibrato, mutedFrenchHorn, brightFrenchHorn, 
+
+	shengSpec, shortShengSpec,
+	sheng, shortSheng, shengVibrato, mutedSheng, brightSheng,
+
+	hulusiSpec, shortHulusiSpec, 
+	hulusi, shortHulusi, hulusiVibrato, mutedHulusi, brightHulusi,
+
+	diziSpec, shortDiziSpec, 
+	dizi, shortDizi, diziVibrato, mutedDizi, brightDizi,
+	
+	-- * SHARC concrete instruments
+	shViolin, shViolinPizzicato, shViolinMuted, shViolinMarteleBowing, shViolinsEnsemble, 
+	shViola, shViolaPizzicato, shViolaMuted,
+    	shViolaMarteleBowing, shTuba, shTromboneMuted, shTrombone, shPiccolo, shOboe, 
+    	shFrenchHornMuted, shFrenchHorn, shFlute,
+    	shEnglishHorn, shClarinetEflat, shTrumpetMutedC, shTrumpetC, shContrabassClarinet, 
+    	shContrabassoon, shCello, shCelloPizzicato,
+    	shCelloMuted, shCelloMarteleBowing, shContrabassPizzicato, shContrabassMuted, 
+    	shContrabassMarteleBowing, shContrabass,
+    	shClarinet, shBassTrombone, shBassClarinet, shBassoon, shBassFlute, shTrumpetBach, 
+    	shAltoTrombone, shAltoFlute,
+
+	-- * SHARC instruments
+	SharcInstr,
+	soloSharc, orcSharc, padSharc, purePadSharc, dreamSharc, dreamSharc',
+
+	-- ** Padsynth instruments
+	PadSharcSpec(..),
+
+	psOrganSharc, psOrganSharc', psLargeOrganSharc, psLargeOrganSharc', psPianoSharc, 
+	psPianoSharc',
+	xpsPianoSharc, xpsPianoSharc',
+	psPadSharc, psPadSharc', psSoftPadSharc, psSoftPadSharc',
+	psMagicPadSharc, psMagicPadSharc', psMagicSoftPadSharc, psMagicSoftPadSharc',
+	psLargePianoSharc, psLargePianoSharc',
+	xpsLargePianoSharc,
+	xpsLargePianoSharc',
+
+	-- ** Deep pads
+	psDeepPadSharc, psDeepPadSharc', psDeepSoftPadSharc, psDeepSoftPadSharc',
+	psDeepMagicPadSharc, psDeepMagicPadSharc', psDeepMagicSoftPadSharc, 
+	psDeepMagicSoftPadSharc',
+
+	--- ** Crossfades
+	psPadSharcCfd, psPadSharcCfd', psPadSharcCfd4, psPadSharcCfd4', psDeepPadSharcCfd, 
+	psDeepPadSharcCfd', 
+	psDeepPadSharcCfd4, psDeepPadSharcCfd4', psSoftPadSharcCfd, psSoftPadSharcCfd', 
+	psSoftPadSharcCfd4, psSoftPadSharcCfd4',
+	psDeepSoftPadSharcCfd, psDeepSoftPadSharcCfd', psDeepSoftPadSharcCfd4, 
+	psDeepSoftPadSharcCfd4',
+
+	-- ** High resolution Padsynth instruments
+	psOrganSharcHifi,
+	psLargeOrganSharcHifi,
+	psPianoSharcHifi,
+	xpsPianoSharcHifi,
+	psPadSharcHifi,
+	psSoftPadSharcHifi,
+	psMagicPadSharcHifi,
+	psMagicSoftPadSharcHifi,
+	psLargePianoSharcHifi,	
+	xpsLargePianoSharcHifi,
+	
+	-- ** Vedic pads
+	-- | Deep spiritual pads.
+	vedicPad, vedicPadCfd, vedicPadCfd4, vedicPadHifi, vedicPadLofi
+
+	-- | Deep spiritual patches.
+	vibhu, rishi, agni, prakriti, rajas, avatara, bhumi,
+	vedicPadHifi, vibhuHifi, rishiHifi, agniHifi, prakritiHifi, rajasHifi, avataraHifi, 
+	bhumiHifi,
+	vedicPadLofi, vibhuLofi, rishiLofi, agniLofi, prakritiLofi, rajasLofi, avataraLofi, 
+	bhumiLofi,
+
+	-- | Crossfade between deep spiritual pads. 
+	-- |All pads take in padsynthBandwidth and crossfade level as parameters.
+	vibhuRishi, vibhuAgni, vibhuPrakriti, vibhuRajas, vibhuAvatara, vibhuBhumi, rishiAgni, 
+	rishiPrakriti,
+	rishiRajas, rishiAvatara, rishiBhumi, agniPrakriti, agniRajas, agniAvatara, agniBhumi, 
+	prakritiRajas,
+	prakritiAvatara, prakritiBhumi, rajasAvatara, rajasBhumi, avataraBhumi,
+	
+	pulseWidth, xanadu, alienIsAngry, noiz, blue, black, simpleMarimba, impulseMarimba1, 
+	impulseMarimba2, okComputer, noiseBell,
+
+	-- * Robotic vowels
+	robotVowels, robotLoopVowels, robotVowel,
+
+	 -- ** Vowels
+   	maleA, maleE, maleIY, maleO, maleOO, maleU, maleER, maleUH,
+    	femaleA, femaleE, femaleIY, femaleO, femaleOO,
+
+	windWall, mildWind, wind, snowCrackle,
+

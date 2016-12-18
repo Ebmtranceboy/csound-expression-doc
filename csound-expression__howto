@@ -1,0 +1,45 @@
+
+installation			csound-expression, csound-sampler, csound-catalog, temporal-music-notation-western, 
+import main library		:m +Csound.Base
+testing				dac $ osc 440
+typed expression syntax		dac $ osc (440 + osc 20 * 10)
+repeat pattern length		dac $ repeatSnd 3 $ leg 0.05 2 0 0 * osc 220
+midi keyboard			dac $ midi $ onMsg $ \x -> osc (x + osc 2 * 10)
+additive synthesis		dac $ midi $ onMsg $ mul (fades 0.1 0.5) . (oscBy $ sines2 [(1, 1), (3, 0.5), (7, 0.125), (11, 0.1)])
+virtual midi keyboard		vdac $ midi $ onMsg $ \x -> osc (x + osc 2 * 10)
+temporal			dac $ mix $ mel [sco (return.osc.sig) (temp 440), rest 1, sco (return.saw.sig) (temp 440)]
+temporal track			dac $ mix $ sco (onCps $ osc) $ mel $ zipWith str [2,1,2] $ map temp [(1,330), (1,440), (0.05,660)]
+temporal transpose		dac $ mix $ sco (return.osc.sig.(*2**(7/12))) (temp 440)
+patch live			dac $ mul 0.2 $ fmap largeHall2 $ atMidi $ transPatch (semitone 2) $ dreamPad
+patch note			dac $ atNote overtonePad (0.5, 220)
+patch temporal 			dac $ mul 0.75 $ mix $ atSco banyan $ mel $ fmap temp [(0.5, 220), (0.75, 330), (1, 440)]
+patch event 			dac $ atSched hammondOrgan (withDur 0.15 $ cycleE [(1, 220), (0.25, 330)] $ metro 6)
+patch octaver			dac $ atMidi $ deepPad cathedralOrgan
+patch merge 			dac $ atMidi $ mixInstr 0.5 banyan $ deepPad overtonePad
+effect				dac $ mix $ eff (return . mul 0.2) $ sco (return.saw.sig) (temp 440)
+patch pre effect		dac $ atMidi $ addPreFx 0.5 (at $ echo 0.25 0.75) banyan
+patch post effect		dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 (at $ echo 0.25 0.75) banyan
+stretch and delay		dac $ mix $ str 2 $ har $ map (sco (return.osc.sig)) [temp 220, del 0.5 $ temp 440]
+loop 				dac $ mix $ loopBy 3 $ mel $ map (sco (return.osc.sig) . temp) [440,220]
+linseg				dac $ linseg [0,5,1] * tri 220 + linseg [1,5,0] * osc 220
+unimodular osc			dac $ osc 220 * uosc 0.25
+mono playing			dac $ loopWav1 (-1) "kick_mono.wav"
+stereo playing			dac $ loopWav (-1) "kick_stereo.wav"
+wave editing			writeSnd "res.wav" $ fmap (setDur 10) $ loopWav 2 "sample.wav"
+wave dumping 			dac $ at (dumpWav "chords.wav") $ performance 
+rhythm patterns			dac $ loop $ mel [lim 8 $ pat' [1, 0.5, 0.25, 0.1] [1] chh, rest 8]
+trance masking			dac $ mul (sawSeq [1, 0.5, 0.25, 0.8, 0.4, 0.1, 0.8, 0.5] 8)  $ atMidi nightPad
+events				dac $ sched (return . (\(amp,freq)-> sig amp * osc (sig freq)))  $ fmap (const $ temp (0.5, 220)) $ metro 1
+gui				dac $ do { (gui, f) <- slider "frequency" (linSpan 30 2000) 0.5; panel gui; return (0.3 * osc f) }
+gui events			dac $ lift1 (sched (return . (\(a,f)-> sig a * osc (sig f))) . fmap (const $ temp (0.5, 220))) $ button "play"
+gui midi			dac $ lift1 (\v-> fmap (* v) (midi $ onMsg osc)) $ uknob 0.5
+sharc instruments		dac $ atMidi $ purePadSharc shCelloPizzicato
+vowel				dac $ atMidi $ robotLoopVowels 3 [(maleO,1),(maleIY,2)]
+globals				dacBy (setRates 22050 10) $ atMidi $ purePadSharc shCelloPizzicato
+wave -> Sam			dac $ wav "../sample/chords.wav"
+wave -> Sig2			dac $ (soundin (text "../sample/chords.wav") :: Sig2)
+Sig2 -> SE Sig2			dac $ (return :: Sig2 -> SE Sig2) $ soundin (text "../sample/chords.wav")
+Sam -> SE Sig2			dac $ runSam 60 $ wav "../sample/chords.wav"
+Sig2 -> Sam			dac $ (toSam :: Sig2 -> Sam) $ soundin (text "../sample/chords.wav")
+SE Sig2 -> Sam			dac $ (toSam :: SE Sig2 -> Sam) $ return $  soundin (text "../sample/chords.wav")
+unparametrized instrument	dac $ mix $ loopBy 3 $ mel [str 0.25 $ sco (const $ return (osc 440)) $ temp unit, rest 0.25]

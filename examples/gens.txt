@@ -1,0 +1,137 @@
+
+GEN01 -- file
+f1 0 131072 -1 "hellorcb.aif" 0 0 0 
+
+GEN02 -- values
+gen02 16 [30000
+	,0.0215
+	,0.08
+	,0   
+	,1     
+	,0
+	,5.08
+	,4     
+	,0.007
+	,0.25
+	,3000  
+	,0.25]
+
+GEN03 
+f 1 0 1025 3 -1 1 5 4 3 2 2 1 -- table with a post-normalized 5th order polynomial function 
+                              -- over the x-interval -1 to 1. 
+                              -- The origin will be at the offset position 512
+f3 0 9 -3 -1 1 2 3 5 7 -- [p_(-4),p_(-3),p_(-2),p_(-1),p0,p_1,p_2,p_3,p_3]
+                       -- s.t. p_i = p(i*(1-(-1))/8)=p(i/4)
+                       -- with p(x) = 2+3x+5x^2+7x^3
+f3 0 9 -3 -2 1 2 3 5 7 -- [p_(-5),p_(-4),p_(-3),p_(-2),p_(-1),p0,p_1,p_2,p_2]
+                       -- s.t. p_i = p(i*(1-(-2))/8)=p(3i/8)
+                       -- with p(x) = 2+3x+5x^2+7x^3                              
+
+GEN04 -- amp normalizing function
+-- multiplying the outouts of a waveshaped signal and its complementary Gen04 normalizing 
+-- f-table generates a waveshaped signal with a consistent peak amplitude value if the sweep 
+-- function determines the index for both tables.
+f26 0 1025 7 -1 256 -1 513 1 256 1
+F27 0  513 4 26 1
+
+GEN05
+gen05 1024 [0.01,256
+	   ,1   ,192
+	   ,0.5 ,256
+	   ,0.5 ,64  ,0.01] -- exponential enveloppe
+
+GEN06 -- cubic polynomial segments
+f23 0 8193 6 1 2048 0 2048 -1 -- means 0 is inflexion from 1 to -1 
+		2048 1 2049 0 -- means 1 is the inflexion from -1 (the third above) to 1 
+GEN07
+gen07 1024 [0,10
+	   ,1,1000
+	   ,1,14  ,0] -- linear enveloppe
+
+GEN08  -- piecewise cubic spline curve
+f15  0 65537 8  1  8193 
+		.99 8192 
+		.96 8192 
+		.9 4096 
+		-.8 8192 
+		-.8 4096 
+		-.9 8192 
+		-.96 8192 
+		-.99 8192 -1
+
+GEN09 -- f # time size 9 pna stra phsa pnb strb phsb ...
+f70 0 65 9 .25 1. 0
+
+GEN10 -- sines
+gen10 2048 [1,0.5,0.3,0.25,0.2,0.167,0.14,0.125,0.111]
+f33 0 1024 10 1 0.5 0.3 0.25 0.2 0.167 0.14 0.125 0.111
+
+GEN11 --  buzz = sum of cosine wave
+f2 0 8192 11 1     -- time size 11 nh [lh] [r]
+
+GEN12
+f3 0 8192 -12 20.0  ;unscaled ln(I0(x)) from 0 to 20.0, I0: modified Bessel fct of the 2nd king
+skipNorm $ gen12 8192 [20]
+
+GEN13 
+GEN14 
+GEN15 Tchebycheff
+
+GEN16
+f # time size 16 beg dur type end
+
+GEN17
+f39 0 16 -17 0 5 13 4 -- means f39 0 16 -2 5 5 5 5 5 5 5 5 5 5 5 5 5 4 4 4
+
+GEN18  -- Writes composite waveforms made up of pre-existing waveforms.
+f # time size 18 fna ampa starta finisha fnb ampb startb finishb ...
+
+
+GEN19 -- weighted sum of sinusoidal partials
+gen19 2048 [1,0.5,270,1]  --  pna, stra, pha, dcoa
+		          -- (pnb, strb, phb, dcob...)
+
+GEN20
+gen20 4097 [2,1] -- [window, max]
+f 1 0   513 20  3 means f 1 0   513 20  3 1 for 20 > 0
+1 = Hamming
+2 = Hanning
+3 = Bartlett ( triangle)
+4 = Blackman ( 3-term)
+5 = Blackman - Harris ( 4-term)
+6 = Gaussian
+7 = Kaiser
+8 = Rectangle
+9 = Sync
+
+GEN21 -- random distribution
+f49 0 513 21 2 1 -- linear with amplitude 1
+1 : Uniform (positive)
+2 : Linear
+3 : Triangular
+4 : Exponential
+5 : Biexponential
+6 : Gaussian
+7 : Cauchy
+8 : Positive Cauchy
+9 : Beta
+10 : weibull
+11 : Poisson
+
+GEN33  -- Generate composite waveforms by mixing simple sinusoids.
+f # time size  33  src nh scl [fmode]
+
+GEN40 -- Generates a random distribution using a distribution histogram.
+f # time size 40 shapetab
+
+GEN49 -- Transfers data from an MP3 soundfile into a function table.
+f#  time  size  49  filcod  skiptime  format
+
+since 5.13
+----------
+
+GEN"tanh"
+f 1 0 131072 "tanh" 0.1 10 0 ; start end rescale
+GEN"exp"
+GEN"sone" -- x*POWER(x/eqlp, FL(33.0)/FL(78.0)) for x between the start and end points. This is the Sone loudness curve.
+GEN"farey"
