@@ -16,6 +16,7 @@ patch temporal 			dac $ mul 0.75 $ mix $ atSco banyan $ mel $ fmap temp [(0.5, 2
 patch event 			dac $ atSched hammondOrgan (withDur 0.15 $ cycleE [(1, 220), (0.25, 330)] $ metro 6)
 patch octaver			dac $ atMidi $ deepPad cathedralOrgan
 patch merge 			dac $ atMidi $ mixInstr 0.5 banyan $ deepPad overtonePad
+reverb stereo			dac $ rever2  0.9 $ loopWav 1 "stereo.wav"
 effect				dac $ mix $ eff (return . mul 0.2) $ sco (return.saw.sig) (temp 440)
 patch pre effect		dac $ atMidi $ addPreFx 0.5 (at $ echo 0.25 0.75) banyan
 patch post effect		dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 (at $ echo 0.25 0.75) banyan
