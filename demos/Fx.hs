@@ -7,9 +7,9 @@ main = dac $ do
    (gui, fx) <- fxHor
       [ uiFilter False 0.5 0.5 0.5
       , uiChorus False 0.5 0.5 0.5 0.5
-      , uiPhaser False 0.5 0.5 0.5 0.5 0.5
+      , uiPhaser True 0.5 0.5 0.5 0.5
       , uiReverb True 0.5 0.5
-      , uiGain True 0.5
+      , uiGain 0.5
       ]
  
    win "main" (900, 400) gui

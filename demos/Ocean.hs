@@ -51,7 +51,4 @@ track = fmap smallRoom2 $ mean
 
 ---
 
-echo2 a b (l, r) = do
-	a1 <- echo a b l
-	a2 <- echo a b r
-	return (a1, a2)
+echo2 a b (l, r) = return (echo a b l, echo a b r)

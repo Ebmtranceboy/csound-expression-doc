@@ -1,7 +1,7 @@
 
 import Csound.Base
 
-oct = 5
+oct = 6
 b1 = cpspch $ oct + 1 + 0.11
 c2 = cpspch $ oct + 2 + 0.00
 e2 = cpspch $ oct + 2 + 0.04

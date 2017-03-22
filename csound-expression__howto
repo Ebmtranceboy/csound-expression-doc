@@ -10,6 +10,8 @@ virtual midi keyboard		vdac $ midi $ onMsg $ \x -> osc (x + osc 2 * 10)
 temporal			dac $ mix $ mel [sco (return.osc.sig) (temp 440), rest 1, sco (return.saw.sig) (temp 440)]
 temporal track			dac $ mix $ sco (onCps $ osc) $ mel $ zipWith str [2,1,2] $ map temp [(1,330), (1,440), (0.05,660)]
 temporal transpose		dac $ mix $ sco (return.osc.sig.(*2**(7/12))) (temp 440)
+mono inst
+patch minimal                   dac $ atMidi $ FxChain [] $ polySynt $ \(a,f) -> return $ sig a  * osc (sig f)
 patch live			dac $ mul 0.2 $ fmap largeHall2 $ atMidi $ transPatch (semitone 2) $ dreamPad
 patch note			dac $ atNote overtonePad (0.5, 220)
 patch temporal 			dac $ mul 0.75 $ mix $ atSco banyan $ mel $ fmap temp [(0.5, 220), (0.75, 330), (1, 440)]
@@ -18,6 +20,7 @@ patch octaver			dac $ atMidi $ deepPad cathedralOrgan
 patch merge 			dac $ atMidi $ mixInstr 0.5 banyan $ deepPad overtonePad
 reverb stereo			dac $ rever2  0.9 $ loopWav 1 "stereo.wav"
 effect				dac $ mix $ eff (return . mul 0.2) $ sco (return.saw.sig) (temp 440)
+patch instr effect              atMidi $ addInstrFx (return . mul 0.5) $ harmonPatch [lfo saw 0.5 4, lfo saw 1.33 5] [1,1] polySynth
 patch pre effect		dac $ atMidi $ addPreFx 0.5 (at $ echo 0.25 0.75) banyan
 patch post effect		dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 (at $ echo 0.25 0.75) banyan
 stretch and delay		dac $ mix $ str 2 $ har $ map (sco (return.osc.sig)) [temp 220, del 0.5 $ temp 440]

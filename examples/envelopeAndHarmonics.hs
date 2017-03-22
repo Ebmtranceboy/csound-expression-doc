@@ -5,6 +5,11 @@ import Csound.Base
 
 import Harmonics(harms)
 
+{-
+harms zs cps = let n = length zs
+      in (sum [zs!!i * osc (sig (1 + int i)*cps)|i<-[0..n-1]]) / (sig $ int n)
+-}
+
 main = dac $ do
     -- Creates a bank of 15 sliders. We specify the label
     -- and initial values for slider (0 is minimum and 1 is maximum 
