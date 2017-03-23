@@ -1,6 +1,6 @@
 
 installation			csound-expression, csound-sampler, csound-catalog, temporal-music-notation-western, 
-import main library		:m +Csound.Base
+import main library		:m +Csound.Base Csound.Patch Csound.Sam Csound.Catalog.Drum.Hm
 testing				dac $ osc 440
 typed expression syntax		dac $ osc (440 + osc 20 * 10)
 repeat pattern length		dac $ repeatSnd 3 $ leg 0.05 2 0 0 * osc 220
@@ -20,9 +20,9 @@ patch octaver			dac $ atMidi $ deepPad cathedralOrgan
 patch merge 			dac $ atMidi $ mixInstr 0.5 banyan $ deepPad overtonePad
 reverb stereo			dac $ rever2  0.9 $ loopWav 1 "stereo.wav"
 effect				dac $ mix $ eff (return . mul 0.2) $ sco (return.saw.sig) (temp 440)
-patch instr effect              atMidi $ addInstrFx (return . mul 0.5) $ harmonPatch [lfo saw 0.5 4, lfo saw 1.33 5] [1,1] polySynth
-patch pre effect		dac $ atMidi $ addPreFx 0.5 (at $ echo 0.25 0.75) banyan
-patch post effect		dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 (at $ echo 0.25 0.75) banyan
+patch instr effect              dac $ atMidi $ addInstrFx (return . mul 0.5) $ harmonPatch [lfo saw 0.5 4, lfo saw 1.33 5] [1,1] polySynth
+patch pre effect		dac $ atMidi $ addPreFx 0.5 ((\ f (l,r)-> return (f l, f r)) $ echo 0.25 0.75) banyan
+patch post effect		dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 ((\ f (l,r)-> return (f l, f r)) $ echo 0.25 0.75) banyan
 stretch and delay		dac $ mix $ str 2 $ har $ map (sco (return.osc.sig)) [temp 220, del 0.5 $ temp 440]
 loop 				dac $ mix $ loopBy 3 $ mel $ map (sco (return.osc.sig) . temp) [440,220]
 linseg				dac $ linseg [0,5,1] * tri 220 + linseg [1,5,0] * osc 220
