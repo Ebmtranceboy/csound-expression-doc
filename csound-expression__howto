@@ -8,6 +8,7 @@ midi keyboard			dac $ midi $ onMsg $ \x -> osc (x + osc 2 * 10)
 additive synthesis		dac $ midi $ onMsg $ mul (fades 0.1 0.5) . (oscBy $ sines2 [(1, 1), (3, 0.5), (7, 0.125), (11, 0.1)])
 tables                          dac $ fmap (rever1 0.6) $ fmap (echo 0.15 0.5) $ midi $ onMsg $ oscBy (tabHarmonics (gen 7 [1,128,0]) 0 130 Nothing Nothing)
 virtual midi keyboard		vdac $ midi $ onMsg $ \x -> osc (x + osc 2 * 10)
+elephant			 dac $ midi $ onMsg $ \x -> let lfofrq = 28 ;lfoamp=2**(1/12)*0.9; lf =(1+osc lfofrq)/2 in rever2 0.95 $ fromMono $ mul 1 $ moogvcf (saw (x*lf + x*lfoamp*(1-lf))) (2.5*x) (linsegr [1,0.1,0.7] 0.1 0.5)
 temporal			dac $ mix $ mel [sco (return.osc.sig) (temp 440), rest 1, sco (return.saw.sig) (temp 440)]
 temporal track			dac $ mix $ sco (onCps $ osc) $ mel $ zipWith str [2,1,2] $ map temp [(1,330), (1,440), (0.05,660)]
 temporal transpose		dac $ mix $ sco (return.osc.sig.(*2**(7/12))) (temp 440)
@@ -23,7 +24,8 @@ reverb stereo			dac $ rever2  0.9 $ loopWav 1 "stereo.wav"
 effect				dac $ mix $ eff (return . mul 0.2) $ sco (return.saw.sig) (temp 440)
 patch instr effect              dac $ atMidi $ addInstrFx (return . mul 0.5) $ harmonPatch [lfo saw 0.5 4, lfo saw 1.33 5] [1,1] polySynth
 patch pre effect		dac $ atMidi $ addPreFx 0.5 ((\ f (l,r)-> return (f l, f r)) $ echo 0.25 0.75) banyan
-patch post effect		dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 ((\ f (l,r)-> return (f l, f r)) $ echo 0.25 0.75) banyan
+patch post echo		dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 ((\ f (l,r)-> return (f l, f r)) $ echo 0.25 0.75) banyan
+patch post delay		dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 ((\ f (l,r)-> return (f l, f r)) $ delaySig 0.25) polySynth
 stretch and delay		dac $ mix $ str 2 $ har $ map (sco (return.osc.sig)) [temp 220, del 0.5 $ temp 440]
 loop 				dac $ mix $ loopBy 3 $ mel $ map (sco (return.osc.sig) . temp) [440,220]
 linseg				dac $ linseg [0,5,1] * tri 220 + linseg [1,5,0] * osc 220
