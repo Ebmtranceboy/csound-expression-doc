@@ -12,7 +12,6 @@ elephant			dac $ midi $ onMsg $ \x -> let lfofrq = 33 ;lfoamp=2**(1/12)*0.9; lf 
 temporal			dac $ mix $ mel [sco (return.osc.sig) (temp 440), rest 1, sco (return.saw.sig) (temp 440)]
 temporal track			dac $ mix $ sco (onCps $ osc) $ mel $ zipWith str [2,1,2] $ map temp [(1,330), (1,440), (0.05,660)]
 temporal transpose		dac $ mix $ sco (return.osc.sig.(*2**(7/12))) (temp 440)
-mono inst
 patch minimal                   dac $ atMidi $ FxChain [] $ polySynt $ \(a,f) -> return $ sig a  * osc (sig f)
 patch live			dac $ mul 0.2 $ fmap largeHall2 $ atMidi $ transPatch (semitone 2) $ dreamPad
 patch note			dac $ atNote overtonePad (0.5, 220)
@@ -24,7 +23,7 @@ reverb stereo			dac $ rever2  0.9 $ loopWav 1 "stereo.wav"
 effect				dac $ mix $ eff (return . mul 0.2) $ sco (return.saw.sig) (temp 440)
 patch instr effect              dac $ atMidi $ addInstrFx (return . mul 0.5) $ harmonPatch [lfo saw 0.5 4, lfo saw 1.33 5] [1,1] polySynth
 patch pre effect		dac $ atMidi $ addPreFx 0.5 ((\ f (l,r)-> return (f l, f r)) $ echo 0.25 0.75) banyan
-patch post echo		dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 ((\ f (l,r)-> return (f l, f r)) $ echo 0.25 0.75) banyan
+patch post echo			dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 ((\ f (l,r)-> return (f l, f r)) $ echo 0.25 0.75) banyan
 patch post delay		dac $ atMidi $ setFxMix 0.5 $ addPostFx 0.5 ((\ f (l,r)-> return (f l, f r)) $ delaySig 0.25) polySynth
 stretch and delay		dac $ mix $ str 2 $ har $ map (sco (return.osc.sig)) [temp 220, del 0.5 $ temp 440]
 loop 				dac $ mix $ loopBy 3 $ mel $ map (sco (return.osc.sig) . temp) [440,220]
@@ -35,6 +34,7 @@ stereo playing			dac $ loopWav (-1) "kick_stereo.wav"
 wave editing			writeSnd "res.wav" $ fmap (setDur 10) $ loopWav 2 "sample.wav"
 wave dumping 			dac $ at (dumpWav "chords.wav") $ performance 
 rhythm patterns			dac $ loop $ mel [lim 8 $ pat' [1, 0.5, 0.25, 0.1] [1] chh, rest 8]
+sample pattern			dac $ loop $ mel [lim 8 $ pat' [1, 0.5, 0.25, 0.1] [1] (wav1 "../sample/kick1.wav"), rest 8]
 trance masking			dac $ mul (sawSeq [1, 0.5, 0.25, 0.8, 0.4, 0.1, 0.8, 0.5] 8)  $ atMidi nightPad
 events				dac $ sched (return . (\(amp,freq)-> sig amp * osc (sig freq)))  $ fmap (const $ temp (0.5, 220)) $ metro 1
 gui				dac $ do { (gui, f) <- slider "frequency" (linSpan 30 2000) 0.5; panel gui; return (0.3 * osc f) }
